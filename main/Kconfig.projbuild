@@ -1,0 +1,191 @@
+# Kconfig 配置菜单 — 智能分类垃圾桶
+# 通过 idf.py menuconfig → "智能分类垃圾桶配置" 调整
+
+menu "智能分类垃圾桶配置"
+    config SMART_TRASH_BIN_USE_KCONFIG
+        bool
+        default y
+        help
+            启用 Kconfig 配置
+
+    # ─── 按键 ───
+    menu "按键引脚"
+        config BTN1_PIN
+            int "按键1 - 可回收"
+            default 15
+            range 0 39
+            help
+                ESP32 GPIO 引脚号，按键1 对应可回收垃圾桶
+
+        config BTN2_PIN
+            int "按键2 - 厨余"
+            default 4
+            range 0 39
+
+        config BTN3_PIN
+            int "按键3 - 有害"
+            default 18
+            range 0 39
+
+        config BTN4_PIN
+            int "按键4 - 其他"
+            default 19
+            range 0 39
+    endmenu
+
+    # ─── 超声波 ───
+    menu "超声波传感器 HC-SR04"
+        config ULTRASONIC1_TRIG
+            int "超声波1 TRIG (可回收)"
+            default 13
+            range 0 39
+
+        config ULTRASONIC1_ECHO
+            int "超声波1 ECHO (可回收)"
+            default 12
+            range 0 39
+
+        config ULTRASONIC2_TRIG
+            int "超声波2 TRIG (厨余)"
+            default 14
+            range 0 39
+
+        config ULTRASONIC2_ECHO
+            int "超声波2 ECHO (厨余)"
+            default 27
+            range 0 39
+
+        config ULTRASONIC3_TRIG
+            int "超声波3 TRIG (有害)"
+            default 26
+            range 0 39
+
+        config ULTRASONIC3_ECHO
+            int "超声波3 ECHO (有害)"
+            default 25
+            range 0 39
+
+        config ULTRASONIC4_TRIG
+            int "超声波4 TRIG (其他)"
+            default 33
+            range 0 39
+
+        config ULTRASONIC4_ECHO
+            int "超声波4 ECHO (其他)"
+            default 32
+            range 0 39
+    endmenu
+
+    # ─── 语音 UART ───
+    menu "语音模块 UART"
+        config VOICE_UART_NUM
+            int "UART 端口号"
+            default 2
+            range 0 2
+            help
+                ESP32 UART 端口号 (UART_NUM_2)
+
+        config VOICE_UART_TX
+            int "UART TX 引脚"
+            default 17
+            range 0 39
+
+        config VOICE_UART_RX
+            int "UART RX 引脚"
+            default 16
+            range 0 39
+
+        config VOICE_UART_BAUD
+            int "UART 波特率"
+            default 115200
+            range 1200 3000000
+    endmenu
+
+    # ─── I2C ───
+    menu "I2C 总线"
+        config I2C_PORT
+            int "I2C 端口号"
+            default 0
+            range 0 1
+            help
+                I2C_NUM_0 或 I2C_NUM_1
+
+        config I2C_SDA
+            int "SDA 引脚"
+            default 21
+            range 0 39
+
+        config I2C_SCL
+            int "SCL 引脚"
+            default 22
+            range 0 39
+
+        config I2C_FREQ_HZ
+            int "I2C 频率 (Hz)"
+            default 100000
+            range 100000 400000
+    endmenu
+
+    # ─── 舵机通道 ───
+    menu "PCA9685 舵机通道"
+        config SERVO1_CHANNEL
+            int "舵机通道1 (可回收)"
+            default 15
+            range 0 15
+
+        config SERVO2_CHANNEL
+            int "舵机通道2 (厨余)"
+            default 11
+            range 0 15
+
+        config SERVO3_CHANNEL
+            int "舵机通道3 (有害)"
+            default 7
+            range 0 15
+
+        config SERVO4_CHANNEL
+            int "舵机通道4 (其他)"
+            default 3
+            range 0 15
+    endmenu
+
+    # ─── 舵机角度 ───
+    menu "舵机参数"
+        config SERVO_OPEN_ANGLE
+            int "打开角度"
+            default 80
+            range 0 180
+            help
+                舵机打开目标角度
+
+        config SERVO_CLOSE_ANGLE
+            int "关闭角度"
+            default 0
+            range 0 180
+            help
+                舵机关闭目标角度
+
+        config AUTO_CLOSE_DELAY_S
+            int "自动关闭延时 (秒)"
+            default 10
+            range 1 60
+            help
+                垃圾桶打开后自动关闭的延时秒数
+    endmenu
+
+    # ─── 超声波满桶阈值 ───
+    config BIN_FULL_DIST_CM
+        int "满桶距离阈值 (cm)"
+        default 10
+        range 0 50
+        help
+            当超声波测量距离小于此值时，判定垃圾桶已满
+
+    # ─── OLED 刷新间隔 ───
+    config DISPLAY_REFRESH_MS
+        int "OLED 刷新间隔 (ms)"
+        default 500
+        range 100 5000
+        help
+            屏幕刷新循环间隔
+endmenu

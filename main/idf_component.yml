@@ -1,0 +1,7 @@
+## ESP-IDF 组件依赖声明
+## 通过 idf.py 或组件管理器自动下载
+
+dependencies:
+  olikraus/u8g2:
+    version: "~2.34"
+    ## u8g2 图形库 — SSD1306 OLED 显示 + 中文字体支持
